@@ -10,6 +10,9 @@ import Groups from './BottomTabs/Groups';
 import { BackButton } from '../components/BackButton';
 import { View } from 'react-native';
 import NewGroupWizard from 'screens/Groups/NewGroupWizard';
+import { useFonts } from 'expo-font';
+import GroupById from 'screens/Groups/GroupById';
+import GroupsMain from 'screens/Groups/GroupsMain';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -30,6 +33,8 @@ export default function RootStack() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Main" component={MainTabs} />
           <Stack.Screen name="CreateGroup" component={NewGroupWizard} />
+          <Stack.Screen name="GroupById" component={GroupById} />
+          <Stack.Screen name="GroupsMain" component={GroupsMain} />
         </Stack.Navigator>
       </QueryClientProvider>
     </NavigationContainer>
@@ -37,6 +42,17 @@ export default function RootStack() {
 }
 
 function MainTabs() {
+  const [loaded] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    HappyMonkey: require('../assets/fonts/HappyMonkey-Regular.ttf'),
+    Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
+    LatoRegular: require('../assets/fonts/Lato-Regular.ttf'),
+    LatoBold: require('../assets/fonts/Lato-Bold.ttf'),
+  });
+
+  if (!loaded) {
+    return null; // Display a fallback UI or loader if fonts are not loaded
+  }
   return (
     <Tab.Navigator
       initialRouteName="Home"

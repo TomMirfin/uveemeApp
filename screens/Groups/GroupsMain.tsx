@@ -27,7 +27,7 @@ interface RenderItemsProps {
   item: Group;
 }
 
-export default function Groups({ navigation }) {
+export default function GroupsMain({ navigation }) {
   const { data, isLoading, error } = useGroupsForUser('f3b36ac4-a9c0-4a45-a68e-ab4a56ff7081');
   const [groups, setGroups] = useState<Group[]>([]);
 

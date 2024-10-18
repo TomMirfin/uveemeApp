@@ -1,5 +1,11 @@
 import { createGroup, getAllGroups, getGroupById, getGroupsForUser } from '../Api';
-import { QueryClient, QueryClientProvider, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
@@ -15,14 +21,19 @@ export function useGroups() {
 }
 
 export function useGroupsForUser(id: string) {
+  const queryClient = useQueryClient();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['groups'],
     queryFn: () =>
-      getGroupsForUser('f3b36ac4-a9c0-4a45-a68e-ab4a56ff7081').then((data) => {
+      getGroupsForUser(id).then((data) => {
         return data;
       }),
   });
-  return { data, isLoading, error };
+
+  const forceRefetch = () => queryClient.invalidateQueries({ queryKey: ['groups'] });
+
+  return { data, isLoading, error, forceRefetch };
 }
 
 export function useGroupById(id: string) {
