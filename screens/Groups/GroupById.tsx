@@ -21,7 +21,7 @@ export default function GroupById({ route, navigation }) {
         size={50}
         color={MYCOLORS.white}
         onPress={() => {
-          navigation.navigate('GroupsMain');
+          navigation.navigate('Groups');
         }}
       />
       {data &&

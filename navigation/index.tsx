@@ -12,7 +12,6 @@ import { View } from 'react-native';
 import NewGroupWizard from 'screens/Groups/NewGroupWizard';
 import { useFonts } from 'expo-font';
 import GroupById from 'screens/Groups/GroupById';
-import GroupsMain from 'screens/Groups/GroupsMain';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -34,7 +33,6 @@ export default function RootStack() {
           <Stack.Screen name="Main" component={MainTabs} />
           <Stack.Screen name="CreateGroup" component={NewGroupWizard} />
           <Stack.Screen name="GroupById" component={GroupById} />
-          <Stack.Screen name="GroupsMain" component={GroupsMain} />
         </Stack.Navigator>
       </QueryClientProvider>
     </NavigationContainer>
@@ -88,7 +86,8 @@ function MainTabs() {
           tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
           headerRight: () => (
             <Ionicons
-              name="add"
+              name="people"
+              style={{ marginRight: 20 }}
               size={24}
               color={MYCOLORS.white}
               onPress={() => navigation.navigate('CreateGroup')}
