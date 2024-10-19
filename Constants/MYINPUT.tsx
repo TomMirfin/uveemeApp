@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 5,
     padding: 10,
+    width: '100%',
   },
   input: {
     borderColor: MYCOLORS.black,
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     color: 'black',
     backgroundColor: 'white',
     borderRadius: 10,
+    padding: 10,
   },
 });
 

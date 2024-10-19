@@ -17,7 +17,7 @@ export type RootStackParamList = {
   Home: undefined;
   Groups: undefined;
   Events: undefined;
-  CreateGroup: undefined; // Add CreateGroup to param list
+  CreateGroup: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,11 @@ export default function RootStack() {
   return (
     <NavigationContainer>
       <QueryClientProvider client={queryClient}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            cardStyle: { backgroundColor: MYCOLORS.background },
+          }}>
           <Stack.Screen name="Main" component={MainTabs} />
           <Stack.Screen name="CreateGroup" component={NewGroupWizard} />
           <Stack.Screen name="GroupById" component={GroupById} />

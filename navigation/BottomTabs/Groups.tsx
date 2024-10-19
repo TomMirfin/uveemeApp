@@ -1,12 +1,11 @@
-import { View, FlatList, StyleSheet, Pressable } from 'react-native';
-import React, { useEffect, useCallback, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native'; // Import hook
-
-import { useGroupsForUser } from 'api/TSHooks/useGroups';
+import { View, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { useDeleteGroup, useGroups, useGroupsForUser } from 'api/TSHooks/useGroups';
 import MYCOLORS from 'Constants/MYCOLORS';
 import { CustomText } from 'Constants/MYTEXT';
-import { useEvent } from 'react-native-reanimated';
-
+import { useUsers } from 'api/TSHooks/useUsers';
+import { Ionicons } from '@expo/vector-icons';
+import { deleteGroup } from '../../api/Api';
 interface Group {
   admin: string[];
   description: string;
@@ -29,24 +28,34 @@ interface RenderItemsProps {
 
 export default function Groups({ navigation }) {
   const { data, isLoading, error } = useGroupsForUser('f3b36ac4-a9c0-4a45-a68e-ab4a56ff7081');
-  const [groups, setGroups] = useState<Group[]>([]);
+  const { mutate } = useDeleteGroup();
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={MYCOLORS.orange} />
+      </View>
+    );
+  }
 
-  useEffect(() => {
-    setGroups(data);
-  }, [data]);
+  // Handle error state
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <CustomText>Error fetching groups</CustomText>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={groups}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        data={data} // Directly use the fetched data
         renderItem={({ item }: RenderItemsProps) => (
           <Pressable
             style={styles.pressable}
-            onPress={() =>
-              navigation.navigate('GroupById', {
-                id: item.id,
-              })
-            }>
+            onPress={() => navigation.navigate('GroupById', { id: item.id })}>
             <CustomText>{item.name}</CustomText>
             <CustomText>{item.description}</CustomText>
           </Pressable>
@@ -63,6 +72,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 20,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   pressable: {
     height: 100,
     justifyContent: 'center',
@@ -72,24 +91,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     marginVertical: 10,
-  },
-  title: {
-    position: 'absolute',
-    top: 10,
-    color: 'white',
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-  description: {
-    position: 'absolute',
-    top: 40,
-    color: 'white',
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-  nextEvent: {
-    position: 'absolute',
-    bottom: 10,
-    color: 'white',
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(0,0,0,0.5)',
   },
 });

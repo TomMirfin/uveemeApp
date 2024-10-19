@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default function GroupById({ route, navigation }) {
   const { id } = route.params;
+  console.log(id);
   const { data, isLoading, error } = useGroupById(id);
   console.log(data);
   return (

@@ -1,4 +1,11 @@
-import { createGroup, getAllGroups, getGroupById, getGroupsForUser } from '../Api';
+import {
+  createGroup,
+  deleteGroup,
+  getAllGroups,
+  getGroupById,
+  getGroupsForUser,
+  updateGroup,
+} from '../Api';
 import {
   QueryClient,
   QueryClientProvider,
@@ -56,4 +63,29 @@ export function useCreateGroup() {
       }),
   });
   return { data, error, mutate };
+}
+
+export function useUpdateGroup() {
+  const { data, error, mutate } = useMutation({
+    mutationKey: ['groups'],
+    mutationFn: (data: any) =>
+      updateGroup(data).then((data) => {
+        return data;
+      }),
+  });
+}
+
+export function useDeleteGroup() {
+  const {
+    data,
+    error,
+    mutate: deleteAGroup,
+  } = useMutation({
+    mutationKey: ['groups'],
+    mutationFn: (id: string) =>
+      deleteGroup(id).then((data) => {
+        return data;
+      }),
+  });
+  return { data, error, mutate: deleteAGroup };
 }
