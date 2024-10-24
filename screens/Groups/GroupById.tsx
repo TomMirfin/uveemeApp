@@ -5,8 +5,10 @@ import MYCOLORS from 'Constants/MYCOLORS';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomText } from 'Constants/MYTEXT';
 import { FontAwesome } from '@expo/vector-icons';
+import groupStore from 'Constants/Hooks/groupState';
 
 export default function GroupById({ route, navigation }) {
+  const groupId = groupStore((state) => state.groupId);
   const { id } = route.params;
   console.log(id);
   const { data, isLoading, error } = useGroupById(id);

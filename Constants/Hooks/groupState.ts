@@ -5,7 +5,7 @@ interface GroupState {
   setGroupId: (groupId: string) => void;
 }
 
-const groupStore = create((set) => ({
+const groupStore = create<GroupState>((set) => ({
   groupId: '',
   setGroupId: (groupId: string) => set({ groupId }),
 }));

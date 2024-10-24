@@ -22,7 +22,7 @@ import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 export const NewGroupWizard = ({ navigation }) => {
   const { users } = useUsers();
-  const { userById } = useUserById();
+
   const { data, error, mutate } = useCreateGroup();
   const setGroupId = groupStore((state) => state.setGroupId);
   const [groupDetails, setGroupDetails] = useState({
@@ -72,12 +72,12 @@ export const NewGroupWizard = ({ navigation }) => {
 
   const createGroup = () => {
     mutate(groupDetails);
-    navigation.navigate('GroupById', { id: data.id });
+
+    navigation.navigate('GroupById');
   };
   const createGroupAndEvent = () => {
     mutate(groupDetails);
-    setGroupId(data.id);
-    navigation.navigate('GroupById', { id: data.id });
+    navigation.navigate('GroupById');
   };
 
   const searchForUsers = (e: any) => {

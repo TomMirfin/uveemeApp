@@ -1,7 +1,7 @@
 import axios from 'axios';
-
-export const API_URL = 'http://ec2-54-246-237-164.eu-west-1.compute.amazonaws.com:3000';
-
+import dotenv from 'dotenv';
+dotenv.config();
+const API_URL = process.env.API_URL;
 export const api = axios.create({
   baseURL: API_URL,
   headers: {

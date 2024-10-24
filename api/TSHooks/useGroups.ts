@@ -1,3 +1,5 @@
+import groupStore from 'Constants/Hooks/groupState';
+import GroupById from '../../screens/Groups/GroupById';
 import {
   createGroup,
   deleteGroup,
@@ -13,6 +15,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
 
 const queryClient = new QueryClient();
 
@@ -55,10 +58,15 @@ export function useGroupById(id: string) {
 }
 
 export function useCreateGroup() {
+  const navigation = useNavigation();
+  const setGroupId = groupStore((state) => state.setGroupId);
   const { data, error, mutate } = useMutation({
     mutationKey: ['groups'],
     mutationFn: (data: any) =>
       createGroup(data).then((data) => {
+        console.log('Data:', data);
+        setGroupId(data.id);
+        navigation.navigate('GroupById', { id: data.id });
         return data;
       }),
   });
